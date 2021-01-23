@@ -1,0 +1,49 @@
+{
+  "name": "4_kata_utilities_final_project",
+  "version": "1.0.0",
+  "description": "This is the last project of the 'Utiities' module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev:start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juancamilocorralesosvath/4_Kata_Utilities_Final_Project.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "CSS",
+    "HTML",
+    "SCSS",
+    "webpack",
+    "Babel",
+    "NodeJS"
+  ],
+  "author": "super_Juanchis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juancamilocorralesosvath/4_Kata_Utilities_Final_Project/issues"
+  },
+  "homepage": "https://github.com/juancamilocorralesosvath/4_Kata_Utilities_Final_Project#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.1",
+    "file-loader": "^6.2.0",
+    "html-loader": "^1.3.2",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.3.1",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
