@@ -17,7 +17,7 @@ body{
     .answers{
         display: flex;
         flex-direction: row;
-    section{ 
+    aside{ 
         display: flex;
         align-items: center;
         background-color: white;
@@ -26,9 +26,31 @@ body{
         height: 7em;
         margin: 10px;
     }
-    section:hover{ 
+    aside:hover{ 
         background-color: chartreuse;
         cursor: pointer;
     }
 }
+}
+.difficulty{ 
+    display: none;
+    aside{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        background-color: rgb(230, 223, 223);
+        border-radius: 100px;
+        border: 5px;
+        height: 7em;
+        margin: 10px;
+    }
+    aside:hover{ 
+        background-color: red;
+        cursor: pointer;
+    }
+    img{ 
+        border-radius: 40px;
+        height: 6em;
+        width: 6em;
+    }
 }

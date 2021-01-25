@@ -13,6 +13,13 @@ const btn = document.getElementById("awesome-btn"); */
 // dificultad y tipo de respuesta 
 
 const categoriesContainer = document.getElementById('categories');
+const answersContainer = document.getElementById('answersContainer');
+const multipleAnswers = document.getElementById('multiple');
+const booleanAnswers = document.getElementById('boolean');
+const difficultyContainer = document.getElementById('difficulty');
+let globalArrayOfAnswers = [];
+
+
 // esta funcion la ocuparemos una vez que terminemos de 'recolectar' todos los parametros...
 /* const generateTrivia = () => {
     axios.get(`https://opentdb.com/api.php?amount=${AMOUNT}&category=${Number(category.value)}&difficulty=${difficulty.value}&type=${type.value}`)
@@ -60,20 +67,40 @@ const generateCategoryCards = (categories) => {
         categoriesContainer.appendChild(card);
     });
 }
-// listo, la verdad ni siquiera yo entendi muy bien como funciono esto XD, porque no le estoy pasando ningun parametro cuando llamo esta funcion... pero bueh
-// aqui lo quue hago es traerme el id de cada categoria
-const handleClick = (props) => {
-    let answersContainer = document.getElementById('answersContainer');
+// listo, la verdad ni siquiera yo entendi muy bien como funciono esto XD, porque no le estoy pasando ningun parametro 
+// cuando llamo esta funcion... pero bueh
+const handleClickCategories = (props) => {
+    // aqui lo quue hago es traerme el id de cada categoria
+    // pero, aun estoy pensando en como manejar la respuesta del usuario... 
+    // podria ser mediante un arreglo global...
     let textId = props.path[1].childNodes[0].innerText;
     let numberId = Number(textId.slice(0, 2));
+    globalArrayOfAnswers.push(numberId);
     categoriesContainer.style.display = 'none';
     answersContainer.style.display = 'inline';
+}
+const handleClickMultipleAnswers = () => {
+    globalArrayOfAnswers.push(multipleAnswers.id);
+    selectDifficulty();
 
-    /* let x = document.createElement('div');
-    x.className = 'card';
-    x.innerText = numberId;
-    secondary.appendChild(x); */
-    
+}
+const handleClickBooleanAnswers = () => {
+    globalArrayOfAnswers.push(booleanAnswers.id);
+    selectDifficulty();
+}
+// listo, en este paso culminamos por asi decir la primer parte, ya recolectamos la respuesta del usuario, 
+// ahora nos falta la segunda parte, que es el juego como tal, la trivia: mostrar la pregunta, las respuestas, que el usuario eliga, etc...
+const selectDifficulty = () => { 
+    answersContainer.style.display = 'none';
+    difficultyContainer.style.display = 'inline';
+    difficultyContainer.onclick = (event)=>{ 
+        globalArrayOfAnswers.push(event.target.id);
+        console.log(globalArrayOfAnswers);
+    }
+
+
 }
 requestTriviaCategories();
-categoriesContainer.addEventListener('click', handleClick);
+categoriesContainer.addEventListener('click', handleClickCategories);
+multipleAnswers.addEventListener('click', handleClickMultipleAnswers);
+booleanAnswers.addEventListener('click', handleClickBooleanAnswers);
