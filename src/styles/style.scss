@@ -16,7 +16,10 @@ body{
     display: none;
     .answers{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
     aside{ 
         display: flex;
         align-items: center;
@@ -34,6 +37,7 @@ body{
 }
 .difficulty{ 
     display: none;
+    height: 100vh;
     aside{
         display: flex;
         align-items: center;

@@ -2,15 +2,6 @@ import axios from 'axios';
 import style from './styles/style.scss'
 /* // You can specify which plugins you need
 import { Tooltip, Toast, Popover } from 'bootstrap'; */
-// esto lo vamos a usar mas adelante
-/* const AMOUNT = 10;
-const category = document.getElementById("1");
-const difficulty = document.getElementById("2");
-const type = document.getElementById("3");
-const btn = document.getElementById("awesome-btn"); */
-// bueno, ya hicimos que una peticion funcionara
-// aqui hacemos una peticion como un usuario la haria: con categoria,, 
-// dificultad y tipo de respuesta 
 
 const categoriesContainer = document.getElementById('categories');
 const answersContainer = document.getElementById('answersContainer');
@@ -19,14 +10,6 @@ const booleanAnswers = document.getElementById('boolean');
 const difficultyContainer = document.getElementById('difficulty');
 let globalArrayOfAnswers = [];
 
-
-// esta funcion la ocuparemos una vez que terminemos de 'recolectar' todos los parametros...
-/* const generateTrivia = () => {
-    axios.get(`https://opentdb.com/api.php?amount=${AMOUNT}&category=${Number(category.value)}&difficulty=${difficulty.value}&type=${type.value}`)
-    .then((resp)=> {
-        console.log(resp);
-    })
-} */
 // pido o hago un 'GET' a la API, pidiendole que me traiga todas las categorias.
 // de esta manera se las muestro al usuario para que seleccione la que quiera
 const requestTriviaCategories = () => {
@@ -95,11 +78,82 @@ const selectDifficulty = () => {
     difficultyContainer.style.display = 'inline';
     difficultyContainer.onclick = (event)=>{ 
         globalArrayOfAnswers.push(event.target.id);
-        console.log(globalArrayOfAnswers);
+        generateTrivia(globalArrayOfAnswers);
     }
-
-
 }
+// ahora que ya recolectamos los parametros, generamos la trivia
+const generateTrivia = (answers) => {
+    const AMOUNT = 10;
+    const category = answers[0];
+    const type = answers[1];
+    const difficulty = answers[2];
+
+    axios.get(`https://opentdb.com/api.php?amount=${AMOUNT}&category=${category}&difficulty=${difficulty}&type=${type}`)
+    .then((resp)=> {
+        // bien, aqui ya obtenemos la respuesta de la API
+        let questions = resp.data.results;
+        Promise.all(questions)
+        .then(questions => {
+            console.log(questions);
+            showQuestion(questions);
+        })
+    })
+}
+// renderizo o muestro en pantalla las preguntas, pero deberia ser con un control
+/* const renderQuestions = (questions) => {
+    let questionsContainer = document.getElementById('questions');
+    let counter = 0;
+    // bueno, me renderiza las preguntas, pero no se aun como hacer la 
+    //validacion de que al momento en que se seleccione la respuesta correcta, 
+    //entonces ahí sí se avanze... hmm...
+    questions.forEach(question => {
+        if(counter === 0){
+            let title = document.createElement('h1');
+            title.innerText = question.question;
+            let answersArray = question.incorrect_answers.slice();
+            answersArray.push(question.correct_answer);
+            let btns = [];
+            answersArray.forEach(answer => { 
+                let btn = document.createElement('button');
+                btn.className = 'btn btn-primary';
+                btn.innerText = answer;
+                btns.push(btn);
+            })
+            questionsContainer.appendChild(title);
+            btns.forEach(btn => { 
+                questionsContainer.appendChild(btn);
+            })
+            //counter++;
+        }
+    })
+} */
+const showQuestion = (questions, index = 0)=> { 
+    // bueno, no se por que pero me toco llamar al h1 por su id, porque cuando lo 
+    // llamaba mediante la lista de elementos con nombre de clase, no me funcionaba...
+    // pero bueh, aqui funciona.
+    const title = document.getElementById('questionTitle');
+    const elements = document.getElementsByClassName('questionAnswers');
+    title.innerText = decodeHTMLEntities(questions[index].question);
+    for(let i=0; i < elements.length; i++){ 
+        elements[i].innerText = questions[index].incorrect_answers[i];
+        // ojo, que a esto tambien le tenemos que encontrar una manera de manejarlo,
+        // porque asi como esta se ejecuta de una, sin que se le haga click...
+        elements[i].onclick = handleCorrectAnswer(index);
+        if(i===3)  { 
+            elements[i].innerText = questions[index].correct_answer;
+            elements[i].onclick = handleCorrectAnswer(index);
+        }
+    }
+}
+const handleCorrectAnswer = (counter) => {
+ console.log('index is: ', counter);
+}
+// esto no lo hice yo eh, es de stackoverflow jijji
+const decodeHTMLEntities = (text) => {
+    let textArea = document.createElement('textarea');
+    textArea.innerHTML = text;
+    return textArea.value;
+  }
 requestTriviaCategories();
 categoriesContainer.addEventListener('click', handleClickCategories);
 multipleAnswers.addEventListener('click', handleClickMultipleAnswers);
