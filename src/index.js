@@ -8,7 +8,9 @@ const answersContainer = document.getElementById('answersContainer');
 const multipleAnswers = document.getElementById('multiple');
 const booleanAnswers = document.getElementById('boolean');
 const difficultyContainer = document.getElementById('difficulty');
+const divQuestionAnswers = document.getElementById('questions');
 let globalArrayOfAnswers = [];
+let globalArrayOfQuestions = [];
 
 // pido o hago un 'GET' a la API, pidiendole que me traiga todas las categorias.
 // de esta manera se las muestro al usuario para que seleccione la que quiera
@@ -95,7 +97,8 @@ const generateTrivia = (answers) => {
         Promise.all(questions)
         .then(questions => {
             console.log(questions);
-            showQuestion(questions);
+            globalArrayOfQuestions = questions;
+            showQuestion();
         })
     })
 }
@@ -127,27 +130,61 @@ const generateTrivia = (answers) => {
         }
     })
 } */
-const showQuestion = (questions, index = 0)=> { 
+const showQuestion = (index = 0)=> { 
+    let questions = globalArrayOfQuestions;
+    let counter = index;
+    const currentQuestion = questions[index];
     // bueno, no se por que pero me toco llamar al h1 por su id, porque cuando lo 
     // llamaba mediante la lista de elementos con nombre de clase, no me funcionaba...
     // pero bueh, aqui funciona.
     const title = document.getElementById('questionTitle');
     const elements = document.getElementsByClassName('questionAnswers');
-    title.innerText = decodeHTMLEntities(questions[index].question);
+    title.innerText = decodeHTMLEntities(currentQuestion.question);
     for(let i=0; i < elements.length; i++){ 
-        elements[i].innerText = questions[index].incorrect_answers[i];
+        elements[i].innerText = decodeHTMLEntities(currentQuestion.incorrect_answers[i]);
         // ojo, que a esto tambien le tenemos que encontrar una manera de manejarlo,
         // porque asi como esta se ejecuta de una, sin que se le haga click...
-        elements[i].onclick = handleCorrectAnswer(index);
+        //elements[i].onclick = handleCorrectAnswer(index);
         if(i===3)  { 
-            elements[i].innerText = questions[index].correct_answer;
-            elements[i].onclick = handleCorrectAnswer(index);
+            elements[i].innerText = decodeHTMLEntities(currentQuestion.correct_answer);
+            //elements[i].onclick = handleCorrectAnswer(index);
         }
     }
+        //excelente! ya se avanza a la proxima pregunta una vez que
+        //se ha escogido la respuesta correcta.
+        //ahora me falta:
+        //1) manejar el efecto y estilo cuando se responde, en este momento
+        //  pongo que si la respuesta fue erronea la ponga de color rojo
+        // pero al avanzar a la siguiente, se mantiene ese color en la casilla correspondiente
+        //2) hacer el manejo de cuando se terminen las preguntas, mostrarle al user el puntaje y 
+        //   el boton para volver a jugar.
+        divQuestionAnswers.onclick = (event) => {
+            let chosenAnswer = event.target.innerText;
+            const actuallyCorrectOne = currentQuestion.correct_answer; 
+            if(chosenAnswer === actuallyCorrectOne){
+                counter++;
+                showQuestion(counter);
+            }else{
+                event.target.innerText = 'nop!';
+            }
+            if(counter === questions.length-1){
+                divQuestionAnswers.innerText = "yei!"
+            }
+        }
+    
 }
+// se em dispara apenas carga el proceso, no cuando hago click...
 const handleCorrectAnswer = (counter) => {
  console.log('index is: ', counter);
 }
+// lo que pienso hacer es: 
+// 1) poner un eventListener en el div de las respuestas, para que cuando se haga click, se evalue el target, 
+// 2) ese target es la respuesta, 
+// 3) se compara si la respuesta escogida es la correcta, 
+// 4) de ser asi, se llama al metodo 'showQuestion'
+/* const handleQuestionsClick = () => { 
+
+} */
 // esto no lo hice yo eh, es de stackoverflow jijji
 const decodeHTMLEntities = (text) => {
     let textArea = document.createElement('textarea');
@@ -158,3 +195,4 @@ requestTriviaCategories();
 categoriesContainer.addEventListener('click', handleClickCategories);
 multipleAnswers.addEventListener('click', handleClickMultipleAnswers);
 booleanAnswers.addEventListener('click', handleClickBooleanAnswers);
+//divQuestionAnswers.addEventListener('click', handleQuestionsClick);
