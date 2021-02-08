@@ -11,35 +11,33 @@
 </head>
 
 <body>
-  <main class="container" id="principal">
-    <section class="row" id="categories">
+  <main class="container-fluid" id="principal">
+    <section class="row categories" id="categories">
       <h1>Let's see what you know...</h1>
       <h3>choose a category!</h3>
     </section>
-    <section class="container-2" id="answersContainer">
-      <div class="answers" id="row">
+    <section class="container answer-type" id="answersContainer">
         <h1>please choose the type of answer you'd like to receive</h1>
             <aside id="multiple">
-              <h2>Multiple Answer</h2>
+              <h2>Multiple</h2>
             </aside>
             <aside id="boolean">
-              <h2>True / False Answers</h2>
+              <h2>True / False</h2>
             </aside>
-        </div>
     </section >
 
     <section class="difficulty" id="difficulty">
       <h1>Choose your difficulty (please, don't be a pussy)</h1>
       <aside id="easy">
-        <img src="./images/easy.png" alt="difficulty: easy"> 
+        <img class="img-fluid" src="./images/easy.png" alt="difficulty: easy"> 
         <h1>I'm too young to die</h1>
       </aside>
       <aside id="medium"> 
-        <img src="./images/medium.jpg" alt="difficulty: medium"> 
+        <img class="img-fluid" src="./images/medium.jpg" alt="difficulty: medium"> 
         <h1>Hurt me plenty!</h1>
       </aside>
       <aside id="hard"> 
-        <img src="./images/hard.jpg" alt="difficulty: hard AF!"> 
+        <img class="img-fluid" src="./images/hard.jpg" alt="difficulty: hard AF!"> 
         <h1>NIGHTMARE!!!</h1> 
       </aside>
 
@@ -48,10 +46,18 @@
 
   <article class="container questionContainer" id="questions">
     <h1 id="questionTitle">Esta es la pregunta</h1>
+    <section>
     <button class="btn btn-secondary questionAnswers">respuesta</button>
     <button class="btn btn-secondary questionAnswers">respuesta</button>
     <button class="btn btn-secondary questionAnswers">respuesta</button>
     <button class="btn btn-secondary questionAnswers">respuesta</button>
+  </section>
+  </article>
+  <article class="container" id="lastOne">
+    <h1>yei! Tu puntaje fue:</h1>
+    <h2 id="score">sample</h2>
+    <p>Listo para otra aventura?</p>
+    <button id="lastBtn" class="btn btn-danger">Volver a Jugar!</button>
   </article>
 
 
